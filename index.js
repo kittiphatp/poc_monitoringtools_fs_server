@@ -186,7 +186,7 @@ app.post('/api/alerts/:id', (req, res) => {
     .then(response => response.json())
     .then(data => {
         const output = {sent_status: data, payload: body}
-        res.send(output)
+        res.json(output)
     })
     .catch(err => res.send({sent_status: {message: 'Error sending data to Freshservice', error}, payload: body}))    
 })
