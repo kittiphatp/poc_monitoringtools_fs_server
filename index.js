@@ -157,8 +157,6 @@ const sendFreshservice = async (body) => {
     }
 }
 
-app.use(express.static('public'))
-
 app.post('/api/alerts/:id', async (req, res) => {
     try{
         const { id } = req.params
