@@ -136,13 +136,11 @@ let resolves = [
 
 const sendFreshservice = async (body) => {
     try {
-    // const response = await fetch(`${process.env.ALERT_URL}`, {
-    const response = await fetch(`https://mverge.alerts.freshservice.com/integrations/1000013068/alerts`, {
+    const response = await fetch(`${process.env.ALERT_URL}`, {
         method: 'POST', 
         body: JSON.stringify(body), 
         headers: {
-            // "Authorization": `${process.env.ALERT_AUTH_TOKEN}`, 
-            "Authorization": `auth-key eyJhbGciOiJIUzI1NiJ9.eyJhX2lkIjoxNTkzOCwic19pZCI6NSwidHMiOjE3NDU5NDIyNjIuMzM5MTkyfQ.f2OnHZKTRXwOOAWpeDrhl0epr_oz199X4hUd_UMnFVU`, 
+            "Authorization": `${process.env.ALERT_AUTH_TOKEN}`, 
             'Content-Type': 'application/json' 
         }})
     const data = await response.json()
@@ -159,36 +157,15 @@ const sendFreshservice = async (body) => {
     }
 }
 
-// app.post('/api/alerts/:id', async (req, res) => {
-//     try{
-//         const { id } = req.params
-//         alerts[id].occurrence_time = new Date().toString()
-//         const msg = await sendFreshservice(alerts[id])
-//         res.send(msg)
-//     } catch (err) {
-//         res.send({message: 'Error on local server', err})
-//     }
-// })
-
-app.post('/api/alerts/:id', (req, res) => {
-    const { id } = req.params
-    alerts[id].occurrence_time = new Date().toString()
-    const body = alerts[id]
-    
-    fetch(`https://mverge.alerts.freshservice.com/integrations/1000013068/alerts`, {
-        method: 'POST', 
-        body: JSON.stringify(body), 
-        headers: {
-            // "Authorization": `${process.env.ALERT_AUTH_TOKEN}`, 
-            "Authorization": `auth-key eyJhbGciOiJIUzI1NiJ9.eyJhX2lkIjoxNTkzOCwic19pZCI6NSwidHMiOjE3NDU5NDIyNjIuMzM5MTkyfQ.f2OnHZKTRXwOOAWpeDrhl0epr_oz199X4hUd_UMnFVU`, 
-            'Content-Type': 'application/json' 
-        }})
-    .then(response => response.json())
-    .then(data => {
-        const output = {sent_status: data, payload: body}
-        res.json(output)
-    })
-    .catch(err => res.send({sent_status: {message: 'Error sending data to Freshservice', error}, payload: body}))    
+app.post('/api/alerts/:id', async (req, res) => {
+    try{
+        const { id } = req.params
+        alerts[id].occurrence_time = new Date().toString()
+        const msg = await sendFreshservice(alerts[id])
+        res.send(msg)
+    } catch (err) {
+        res.send({message: 'Error on local server', err})
+    }
 })
 
 app.post('/api/resolves/:id', async (req, res) => {
