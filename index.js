@@ -160,8 +160,9 @@ const sendFreshservice = async (body) => {
 app.post('/api/alerts/:id', async (req, res) => {
     try{
         const { id } = req.params
-        alerts[id].occurrence_time = new Date().toString()
-        const msg = await sendFreshservice(alerts[id])
+        const send_id = Number(id)
+        alerts[send_id].occurrence_time = new Date().toString()
+        const msg = await sendFreshservice(alerts[send_id])
         res.send(msg)
     } catch (err) {
         res.send({message: 'Error on local server', err})
