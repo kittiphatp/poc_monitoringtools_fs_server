@@ -136,11 +136,13 @@ let resolves = [
 
 const sendFreshservice = async (body) => {
     try {
-    const response = await fetch(`${process.env.ALERT_URL}`, {
+    // const response = await fetch(`${process.env.ALERT_URL}`, {
+    const response = await fetch(`https://mverge.alerts.freshservice.com/integrations/1000013068/alerts`, {
         method: 'POST', 
         body: JSON.stringify(body), 
         headers: {
-            "Authorization": `${process.env.ALERT_AUTH_TOKEN}`, 
+            // "Authorization": `${process.env.ALERT_AUTH_TOKEN}`, 
+            "Authorization": `auth-key eyJhbGciOiJIUzI1NiJ9.eyJhX2lkIjoxNTkzOCwic19pZCI6NSwidHMiOjE3NDU5NDIyNjIuMzM5MTkyfQ.f2OnHZKTRXwOOAWpeDrhl0epr_oz199X4hUd_UMnFVU`, 
             'Content-Type': 'application/json' 
         }})
     const data = await response.json()
